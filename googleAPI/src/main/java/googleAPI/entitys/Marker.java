@@ -29,7 +29,7 @@ public class Marker {
 	public Double lng;
 	
 	@OneToMany(mappedBy = "marker")
-	public List<Name> name;
+	public List<Adress> adress;
 
 	
 }

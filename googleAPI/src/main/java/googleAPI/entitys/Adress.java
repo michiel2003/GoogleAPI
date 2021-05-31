@@ -15,25 +15,31 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "name")
-public class Name {
+@Table(name = "adress")
+public class Adress {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	public Integer nameId;
+	public Integer adressID;
 	
 	@ManyToOne
 	@JoinColumn(name = "marker_id", referencedColumnName = "id")
 	public Marker marker;
 	
-	public Name() {
+	public Adress() {
 	}
 	
-	@OneToOne(mappedBy = "name")
+	@OneToOne(mappedBy = "adress")
 	public Logs log;
 	
-	@Column(name = "name")
-	public String name;
+	@Column(name = "street")
+	public String street;
+	
+	@Column(name = "region")
+	public String region;
+	
+	@Column(name = "country")
+	public String country;
 
 }

@@ -29,6 +29,6 @@ public class Logs {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "name_id", referencedColumnName = "id")
-	public Name name;
+	public Adress adress;
 
 }

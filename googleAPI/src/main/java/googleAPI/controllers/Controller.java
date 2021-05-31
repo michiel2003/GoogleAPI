@@ -6,10 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import googleAPI.entitys.Adress;
 import googleAPI.entitys.LogRepo;
 import googleAPI.entitys.Marker;
 import googleAPI.entitys.MarkerRepo;
-import googleAPI.entitys.NameRepo;
+import googleAPI.entitys.AdressRepo;
 
 @RestController
 @CrossOrigin(allowedHeaders = "*", origins = "*")
@@ -22,7 +23,7 @@ public class Controller {
 	public MarkerRepo markerrepo;
 	
 	@Autowired
-	public NameRepo namerepo;
+	public AdressRepo adressrepo;
 	
 	@RequestMapping("/status")
 	public String status() {
@@ -44,6 +45,22 @@ public class Controller {
 		marker.lat = lat;
 		marker.lng = lng;
 		markerrepo.save(marker);
+	}
+	
+	@RequestMapping("/newMarker")
+	public void newMark(@RequestParam Double lat, @RequestParam Double lng, String placeinfo) {
+		Marker marker = new Marker();
+		marker.lat = lat;
+		marker.lng = lng;
+		markerrepo.save(marker);
+		marker = markerrepo.FindMarkerByLatLng(marker.lat, marker.lng);
+		Adress adress = new Adress();
+		String[] placeinfoSplit = placeinfo.split(",");
+		adress.street = placeinfoSplit[0].strip();
+		adress.region = placeinfoSplit[1].strip();
+		adress.country = placeinfoSplit[2].strip();
+		adress.marker = marker;	
+		adressrepo.save(adress);
 	}
 
 }

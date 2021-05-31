@@ -16,6 +16,7 @@ function initMap() {
         center: { lat: -34.397, lng: 150.644 },
         zoom: 8,
     });
+    var geocoder = new google.maps.Geocoder();
     map.addListener("click", (mapsMouseEvent) => {
         console.log(mapsMouseEvent.latLng.lat())
         console.log(mapsMouseEvent.latLng.lng())
@@ -23,6 +24,17 @@ function initMap() {
             position: mapsMouseEvent.latLng,
             map,
         })
-        axios.get("http://localhost:8070/marker/newMarker?lat=" + mapsMouseEvent.latLng.lat() + "&lng=" + mapsMouseEvent.latLng.lng())
-      });
+        geocoder.geocode({
+            'latLng': mapsMouseEvent.latLng
+          }, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+              if (results[0]) {
+                  axios.get("http://localhost:8070/newMarker?lat=" + mapsMouseEvent.latLng.lat() + "&lng=" + mapsMouseEvent.latLng.lng() + "&placeinfo=" + results[0].formatted_address)
+              }
+            }
+            
+          });
+    });
+
+    
 }
